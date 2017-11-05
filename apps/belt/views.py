@@ -27,14 +27,14 @@ def register(request):
         hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
         user = User.objects.create(Name=Name, Alias=Alias, email=email, password=hashed_password)
         request.session['id'] = user.id
-        request.session.name = user.Name
-        print 'UsrName', request.session.name
+        request.session['name'] = user.Name
+        print 'UsrName', request.session['name']
         lists = List.objects.all()
         context = {
             'lists': lists
         }
         # return redirect("/appointments")
-        return redirect('/dashboard')
+        return render(request, 'belt/dashboard.html', context)
 
 
 def login(request):
@@ -55,15 +55,15 @@ def login(request):
 
         request.session['id'] = user.id
 
-        request.session.name = user.Name
+        #request.session.name = user.Name
         request.session['name'] = user.Name
         lists = List.objects.all()
         context = {
             'lists': lists
         }
-        print request.session['name']
+        print 'In login', request.session['name']
         # return redirect("/appointments")
-        return redirect('/dashboard')
+        return render(request, 'belt/dashboard.html', context)
 
 def createItem(request):
     return render(request, 'belt/create.html')

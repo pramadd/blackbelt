@@ -65,7 +65,7 @@
 
 
              {%for list in lists%}
-            {%if list.wishers.name != request.session.name%}
+
             <tr>
                 <td><a href="/wish_items/{{list.id}}"> {{list.item}} </a></td>
                 <td>{{list.uploader.Name}}</td>
@@ -76,7 +76,7 @@
                     <td><input type="submit" name="listId" value="Add to my Wishlist"> </td>
                 </form>
             </tr>
-            {%endif%}
+
             {%endfor%}
         </table>
 
