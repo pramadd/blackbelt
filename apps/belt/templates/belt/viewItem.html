@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<a href="/dashboard">home</a>
+<a href="/">logout</a>
+
+<h1>{{itemsList.itemName}}</h1>
+<p>Users who added this product/item under their wish list : </p>
+
+
+{%for user in itemsList.wishers.all%}
+<p>{{user.Name}}</p>
+{%endfor%}
+</body>
+</html>

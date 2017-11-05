@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <title>Dashboard</title>
+        <style>
+            table, th, td {
+            border: 1px solid black;
+            }
+        </style>
+    </head>
+    <body>
+    <div>
+        {% csrf_token %}
+        <nav>
+            <h1>Hello, {{ request.session.name }} !!</h1>
+
+            <a href="/logout">Logout</a>
+
+        </nav>
+        <!--your wish list-->
+        <h2>Your Wish List:</h2>
+        <table>
+            <tr>
+                <th>Item</th>
+                <th>Added by</th>
+                <th>Date Added</th>
+                <th>Action</th>
+            </tr>
+
+
+            {%for list in lists%}
+            {%if list.uploader.Name == request.session.name%}
+            <tr>
+                <td><a href="/wish_items/{{list.id}}"> {{list.item}} </a></td>
+                <td>{{list.uploader.Name}}</td>
+                <td>{{list.created_at}}</td>
+
+                {%if list.uploader.Name == request.session.name%}
+                <form action="/delete" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="listId" value="{{list.id}}">
+                    <td><input type="submit" value="delete"></td>
+                </form>
+                {%else%}
+                <form action="/removefromlist" name="listId" method="POST">
+                    {% csrf_token %}
+                     <input type="hidden" value="{{list.id}}">
+                     <td><input type="submit" value="Remove from my Wishlist"> </td>
+                </form>
+                {%endif%}
+
+            </tr>
+            {%endif%}
+            {%endfor%}
+        </table>
+
+    <!--other user wish list-->
+        <h2>Other User Wish list</h2>
+        <table>
+            <tr>
+                <th>Item</th>
+                <th>Added by</th>
+                <th>Date Added</th>
+                <th>Action</th>
+            </tr>
+
+
+             {%for list in lists%}
+            {%if list.wishers.name != request.session.name%}
+            <tr>
+                <td><a href="/wish_items/{{list.id}}"> {{list.item}} </a></td>
+                <td>{{list.uploader.Name}}</td>
+                <td>{{list.created_at}}</td>
+                <form action="/addtolist" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{list.id}}">
+                    <td><input type="submit" name="listId" value="Add to my Wishlist"> </td>
+                </form>
+            </tr>
+            {%endif%}
+            {%endfor%}
+        </table>
+
+     <a href="/create">Add Item</a>
+    </div>
+    </body>
+</html>

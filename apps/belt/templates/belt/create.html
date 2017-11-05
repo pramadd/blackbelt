@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<a href="/dashboard">home</a>
+<a href="/">logout</a>
+<h4>Create a New Wish List Item</h4>
+
+<br/><br>
+<form action="/add" method='post'>
+    {% csrf_token %}
+Item/Product :
+<input type="text" name="itemName" value="">
+
+<button type="submit"> Add </button>
+    <div>
+        {% if messages %}
+        {% for message in messages %}
+        <h4>{{message}}</h4>
+        {% endfor %}
+        {% endif %}
+    </div>
+</form>
+</body>
+</html>
